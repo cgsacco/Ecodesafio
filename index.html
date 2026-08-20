@@ -162,7 +162,7 @@
             /* Luz apagada */
 
             background-color:
-                rgba(255,255,255,0.15);
+                white;
 
             box-sizing: border-box;
         }
@@ -492,31 +492,6 @@
                 luz => {
 
                     luz.style.backgroundColor =
-                        "rgba(255, 255, 255, 0.15)";
-
-                }
-
-            );
-
-        }
-
-
-
-        /* =====================================================
-           ENCENDER TODAS LAS LUCES (VELOCIDAD ÓPTIMA)
-           ===================================================== */
-
-        function encenderTodasLasLuces() {
-
-            const luces =
-                document.querySelectorAll('.luz');
-
-
-            luces.forEach(
-
-                luz => {
-
-                    luz.style.backgroundColor =
                         "white";
 
                 }
@@ -672,10 +647,6 @@
             ) {
 
 
-                document.body.style.backgroundColor =
-                    "#d35400";
-
-
                 /* ---------------------------------------------
                    2 km/h o más por debajo
                    → 1 luz
@@ -686,7 +657,7 @@
                         "izq-1"
                     )
                     .style.backgroundColor =
-                        "white";
+                        "red";
 
 
 
@@ -704,7 +675,7 @@
                             "izq-2"
                         )
                         .style.backgroundColor =
-                            "white";
+                            "red";
 
                 }
 
@@ -724,7 +695,7 @@
                             "izq-3"
                         )
                         .style.backgroundColor =
-                            "white";
+                            "red";
 
                 }
 
@@ -741,10 +712,6 @@
             ) {
 
 
-                document.body.style.backgroundColor =
-                    "#c0392b";
-
-
                 /* ---------------------------------------------
                    2 km/h o más por encima
                    → 1 luz
@@ -755,7 +722,7 @@
                         "der-1"
                     )
                     .style.backgroundColor =
-                        "white";
+                        "red";
 
 
 
@@ -773,7 +740,7 @@
                             "der-2"
                         )
                         .style.backgroundColor =
-                            "white";
+                            "red";
 
                 }
 
@@ -793,7 +760,7 @@
                             "der-3"
                         )
                         .style.backgroundColor =
-                            "white";
+                            "red";
 
                 }
 
@@ -809,17 +776,11 @@
             else {
 
 
-                document.body.style.backgroundColor =
-                    "#2ecc71";
-
-
                 /* ---------------------------------------------
-                   En velocidad óptima, las 6 luces
-                   (izquierda y derecha) se encienden
-                   en blanco.
+                   En velocidad óptima no se enciende
+                   ninguna luz: todas quedan blancas
+                   (estado "apagada"), que es lo esperado.
                    --------------------------------------------- */
-
-                encenderTodasLasLuces();
 
             }
 
