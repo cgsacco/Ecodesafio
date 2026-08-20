@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0,
+                   maximum-scale=1.0,
+                   user-scalable=no">
 
     <title>Volante EcoDesafío - Luces de Ritmo</title>
 
+
     <style>
 
+        /* =====================================================
+           PÁGINA
+           ===================================================== */
+
         body, html {
+
             margin: 0;
             padding: 0;
+
             width: 100%;
             height: 100%;
+
             font-family: Arial, sans-serif;
 
             background-color: #2ecc71;
 
             display: flex;
+
             flex-direction: column;
+
             justify-content: center;
+
             align-items: center;
 
             transition: background-color 0.2s ease;
@@ -29,31 +47,37 @@
 
 
         /* =====================================================
-           CONTENEDOR PRINCIPAL
+           TABLERO PRINCIPAL
            ===================================================== */
 
         #tablero-luces {
+
             display: flex;
+
             width: 90%;
+
             justify-content: space-between;
+
             align-items: center;
         }
 
 
         /* =====================================================
-           GRUPOS IZQUIERDO Y DERECHO
+           GRUPOS DE LUCES
            ===================================================== */
 
         .grupo-luces {
+
             width: 42%;
         }
 
 
-        /* Contenedor que incluye título + luces */
-
         .grupo-con-titulo {
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
         }
 
@@ -63,16 +87,19 @@
            ===================================================== */
 
         .titulo-luces {
+
             width: 100%;
 
             text-align: center;
 
             font-size: 4vh;
+
             font-weight: bold;
 
             color: white;
 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            text-shadow:
+                2px 2px 4px rgba(0,0,0,0.4);
 
             margin-bottom: 2vh;
         }
@@ -83,6 +110,7 @@
            ===================================================== */
 
         .luces-fila {
+
             display: flex;
 
             gap: 2vw;
@@ -91,16 +119,28 @@
         }
 
 
-        /* Izquierda: las luces se encienden de derecha a izquierda */
+        /* Las luces de acelerar están ordenadas:
+           izquierda -> derecha
+           3     2     1
+                        ↑
+                  más cercana al centro
+        */
 
         #grupo-izquierdo .luces-fila {
+
             justify-content: flex-end;
         }
 
 
-        /* Derecha: las luces se encienden de izquierda a derecha */
+        /* Las luces de desacelerar están ordenadas:
+           izquierda -> derecha
+           1     2     3
+           ↑
+           más cercana al centro
+        */
 
         #grupo-derecho .luces-fila {
+
             justify-content: flex-start;
         }
 
@@ -110,6 +150,7 @@
            ===================================================== */
 
         .luz {
+
             width: 28%;
 
             height: 35vh;
@@ -118,14 +159,17 @@
 
             border-radius: 15px;
 
-            background-color: rgba(255, 255, 255, 0.15);
+            /* Luz apagada */
+
+            background-color:
+                rgba(255,255,255,0.15);
 
             box-sizing: border-box;
         }
 
 
         /* =====================================================
-           VELOCIDAD EN EL CENTRO
+           VELOCIDAD CENTRAL
            ===================================================== */
 
         #velocidad-centro {
@@ -140,71 +184,109 @@
 
             color: white;
 
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            text-shadow:
+                2px 2px 5px rgba(0,0,0,0.3);
         }
 
 
         /* =====================================================
-           AJUSTES PARA TELÉFONOS
+           ADAPTACIÓN PARA TELÉFONOS
            ===================================================== */
 
         @media (max-width: 600px) {
 
             #tablero-luces {
+
                 width: 96%;
             }
 
+
             .grupo-luces {
+
                 width: 40%;
             }
 
+
             .titulo-luces {
+
                 font-size: 3.5vh;
+
                 margin-bottom: 1.5vh;
             }
 
+
             .luces-fila {
+
                 gap: 1.5vw;
             }
 
+
             .luz {
+
                 height: 32vh;
+
                 border-width: 3px;
+
                 border-radius: 10px;
             }
 
+
             #velocidad-centro {
+
                 width: 20%;
+
                 font-size: 7vh;
             }
+
         }
 
     </style>
+
 </head>
 
 
 <body>
 
+
+    <!-- =====================================================
+         TABLERO
+         ===================================================== -->
+
     <div id="tablero-luces">
 
 
         <!-- =================================================
-             LUCES DE LA IZQUIERDA
+             ACELERAR - IZQUIERDA
              ================================================= -->
 
-        <div class="grupo-luces grupo-con-titulo" id="grupo-izquierdo">
+        <div class="grupo-luces grupo-con-titulo"
+             id="grupo-izquierdo">
+
 
             <div class="titulo-luces">
                 Acelerar
             </div>
 
+
             <div class="luces-fila">
 
-                <div class="luz" id="izq-3"></div>
+                <!-- Más alejada del centro -->
 
-                <div class="luz" id="izq-2"></div>
+                <div class="luz"
+                     id="izq-3">
+                </div>
 
-                <div class="luz" id="izq-1"></div>
+
+                <div class="luz"
+                     id="izq-2">
+                </div>
+
+
+                <!-- Más cercana al centro -->
+
+                <div class="luz"
+                     id="izq-1">
+                </div>
 
             </div>
 
@@ -212,7 +294,7 @@
 
 
         <!-- =================================================
-             VELOCIDAD REAL
+             VELOCIDAD
              ================================================= -->
 
         <div id="velocidad-centro">
@@ -221,39 +303,61 @@
 
 
         <!-- =================================================
-             LUCES DE LA DERECHA
+             DESACELERAR - DERECHA
              ================================================= -->
 
-        <div class="grupo-luces grupo-con-titulo" id="grupo-derecho">
+        <div class="grupo-luces grupo-con-titulo"
+             id="grupo-derecho">
+
 
             <div class="titulo-luces">
                 Desacelerar
             </div>
 
+
             <div class="luces-fila">
 
-                <div class="luz" id="der-1"></div>
 
-                <div class="luz" id="der-2"></div>
+                <!-- Más cercana al centro -->
 
-                <div class="luz" id="der-3"></div>
+                <div class="luz"
+                     id="der-1">
+                </div>
+
+
+                <div class="luz"
+                     id="der-2">
+                </div>
+
+
+                <!-- Más alejada del centro -->
+
+                <div class="luz"
+                     id="der-3">
+                </div>
+
 
             </div>
 
         </div>
 
-
     </div>
+
 
 
     <script>
 
+
+        /* =====================================================
+           TABLA DE ESTRATEGIA
+           ===================================================== */
+
         let TABLA_ESTRATEGIA = [];
 
 
-        // =====================================================
-        // MAPA DE LA PISTA
-        // =====================================================
+        /* =====================================================
+           MAPA DE LA PISTA
+           ===================================================== */
 
         const MAPA_PISTA = [
 
@@ -272,23 +376,31 @@
         ];
 
 
-        // =====================================================
-        // CARGAR ESTRATEGIA
-        // =====================================================
+        /* =====================================================
+           ACTUALIZAR ESTRATEGIA
+           ===================================================== */
 
         async function actualizarEstrategiaDesdeBoxes() {
 
             try {
 
                 const respuesta =
-                    await fetch('datos.json?cache_bypass=' + Date.now());
+                    await fetch(
+                        'datos.json?cache_bypass='
+                        + Date.now()
+                    );
+
 
                 TABLA_ESTRATEGIA =
                     await respuesta.json();
 
-            } catch (error) {
+            }
 
-                console.log("Usando estrategia en memoria.");
+            catch (error) {
+
+                console.log(
+                    "Usando estrategia en memoria."
+                );
 
             }
 
@@ -304,9 +416,10 @@
         actualizarEstrategiaDesdeBoxes();
 
 
-        // =====================================================
-        // DISTANCIA ENTRE COORDENADAS GPS
-        // =====================================================
+
+        /* =====================================================
+           DISTANCIA ENTRE DOS PUNTOS GPS
+           ===================================================== */
 
         function calcularDistancia(
             lat1,
@@ -317,60 +430,81 @@
 
             const R = 6371000;
 
+
             const dLat =
-                (lat2 - lat1) *
-                Math.PI / 180;
+                (lat2 - lat1)
+                * Math.PI / 180;
+
 
             const dLon =
-                (lon2 - lon1) *
-                Math.PI / 180;
+                (lon2 - lon1)
+                * Math.PI / 180;
+
 
             const a =
-                Math.sin(dLat/2) *
-                Math.sin(dLat/2) +
 
-                Math.cos(lat1 * Math.PI / 180) *
-                Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLat / 2) *
+                Math.sin(dLat / 2)
 
-                Math.sin(dLon/2) *
-                Math.sin(dLon/2);
+                +
+
+                Math.cos(
+                    lat1 * Math.PI / 180
+                )
+
+                *
+
+                Math.cos(
+                    lat2 * Math.PI / 180
+                )
+
+                *
+
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
+
 
             return R *
                 (
                     2 *
                     Math.atan2(
                         Math.sqrt(a),
-                        Math.sqrt(1-a)
+                        Math.sqrt(1 - a)
                     )
                 );
 
         }
 
 
-        // =====================================================
-        // APAGAR TODAS LAS LUCES
-        // =====================================================
+
+        /* =====================================================
+           APAGAR TODAS LAS LUCES
+           ===================================================== */
 
         function apagarTodasLasLuces() {
 
             const luces =
                 document.querySelectorAll('.luz');
 
+
             luces.forEach(
 
-                luz =>
+                luz => {
 
-                luz.style.backgroundColor =
-                    "rgba(255, 255, 255, 0.15)"
+                    luz.style.backgroundColor =
+                        "rgba(255, 255, 255, 0.15)";
+
+                }
 
             );
 
         }
 
 
-        // =====================================================
-        // PROCESAMIENTO GPS
-        // =====================================================
+
+        /* =====================================================
+           PROCESAMIENTO GPS
+           ===================================================== */
 
         function procesarGps(
             latActual,
@@ -378,41 +512,58 @@
             velocidadMps
         ) {
 
-            if (TABLA_ESTRATEGIA.length === 0) {
+
+            /* -------------------------------------------------
+               TODAVÍA NO TENEMOS LA ESTRATEGIA
+               ------------------------------------------------- */
+
+            if (
+                TABLA_ESTRATEGIA.length === 0
+            ) {
 
                 document
-                    .getElementById("velocidad-centro")
+                    .getElementById(
+                        "velocidad-centro"
+                    )
                     .innerText = "---";
 
+
                 return;
+
             }
 
 
-            // -------------------------------------------------
-            // VELOCIDAD REAL
-            // -------------------------------------------------
 
-            let kmhReal =
-                Math.round(
-                    (velocidadMps || 0) * 3.6
-                );
+            /* -------------------------------------------------
+               VELOCIDAD REAL
+               ------------------------------------------------- */
+
+            let kmhReal = Math.round(
+                (velocidadMps || 0) * 3.6
+            );
 
 
             document
-                .getElementById("velocidad-centro")
+                .getElementById(
+                    "velocidad-centro"
+                )
                 .innerText = kmhReal;
 
 
-            // -------------------------------------------------
-            // ENCONTRAR TRAMO DE LA PISTA
-            // -------------------------------------------------
+
+            /* -------------------------------------------------
+               BUSCAR POSICIÓN EN LA PISTA
+               ------------------------------------------------- */
 
             let distMinima = Infinity;
 
             let metrosActuales = 0;
 
 
-            for (let punto of MAPA_PISTA) {
+            for (
+                let punto of MAPA_PISTA
+            ) {
+
 
                 let d =
                     calcularDistancia(
@@ -422,20 +573,25 @@
                         punto[1]
                     );
 
-                if (d < distMinima) {
+
+                if (
+                    d < distMinima
+                ) {
 
                     distMinima = d;
 
-                    metrosActuales = punto[2];
+                    metrosActuales =
+                        punto[2];
 
                 }
 
             }
 
 
-            // -------------------------------------------------
-            // VELOCIDAD IDEAL
-            // -------------------------------------------------
+
+            /* -------------------------------------------------
+               OBTENER VELOCIDAD IDEAL
+               ------------------------------------------------- */
 
             let kmhIdeal = 0;
 
@@ -444,8 +600,10 @@
                 let rango of TABLA_ESTRATEGIA
             ) {
 
+
                 if (
-                    metrosActuales >= rango.metros
+                    metrosActuales >=
+                    rango.metros
                 ) {
 
                     kmhIdeal =
@@ -456,88 +614,175 @@
             }
 
 
-            // -------------------------------------------------
-            // APAGAR LUCES
-            // -------------------------------------------------
+
+            /* -------------------------------------------------
+               APAGAR TODAS LAS LUCES
+               ------------------------------------------------- */
 
             apagarTodasLasLuces();
 
 
-            // -------------------------------------------------
-            // DIFERENCIA DE VELOCIDAD
-            // -------------------------------------------------
+
+            /* -------------------------------------------------
+               DIFERENCIA
+
+               diferencia < 0:
+               vamos demasiado lento
+
+               diferencia > 0:
+               vamos demasiado rápido
+               ------------------------------------------------- */
 
             let diferencia =
                 kmhReal - kmhIdeal;
 
 
-            // =================================================
-            // EXCESO DE VELOCIDAD
-            // =================================================
 
-            if (diferencia >= 2) {
+            /* =================================================
+               DEMASIADO LENTO → ACELERAR
+               ================================================= */
 
-                document.body.style.backgroundColor =
-                    "#c0392b";
+            if (
+                diferencia <= -2
+            ) {
 
-
-                document.getElementById(
-                    "izq-1"
-                ).style.backgroundColor = "white";
-
-
-                if (diferencia >= 4)
-
-                    document.getElementById(
-                        "izq-2"
-                    ).style.backgroundColor = "white";
-
-
-                if (diferencia >= 6)
-
-                    document.getElementById(
-                        "izq-3"
-                    ).style.backgroundColor = "white";
-
-            }
-
-
-            // =================================================
-            // FALTA DE VELOCIDAD
-            // =================================================
-
-            else if (diferencia <= -2) {
 
                 document.body.style.backgroundColor =
                     "#d35400";
 
 
-                document.getElementById(
-                    "der-1"
-                ).style.backgroundColor = "white";
+                /* ---------------------------------------------
+                   2 km/h o más por debajo
+                   → 1 luz
+                   --------------------------------------------- */
+
+                document
+                    .getElementById(
+                        "izq-1"
+                    )
+                    .style.backgroundColor =
+                        "white";
 
 
-                if (diferencia <= -4)
 
-                    document.getElementById(
-                        "der-2"
-                    ).style.backgroundColor = "white";
+                /* ---------------------------------------------
+                   4 km/h o más por debajo
+                   → 2 luces
+                   --------------------------------------------- */
+
+                if (
+                    diferencia <= -4
+                ) {
+
+                    document
+                        .getElementById(
+                            "izq-2"
+                        )
+                        .style.backgroundColor =
+                            "white";
+
+                }
 
 
-                if (diferencia <= -6)
 
-                    document.getElementById(
-                        "der-3"
-                    ).style.backgroundColor = "white";
+                /* ---------------------------------------------
+                   6 km/h o más por debajo
+                   → 3 luces
+                   --------------------------------------------- */
+
+                if (
+                    diferencia <= -6
+                ) {
+
+                    document
+                        .getElementById(
+                            "izq-3"
+                        )
+                        .style.backgroundColor =
+                            "white";
+
+                }
 
             }
 
 
-            // =================================================
-            // VELOCIDAD ÓPTIMA
-            // =================================================
+
+            /* =================================================
+               DEMASIADO RÁPIDO → DESACELERAR
+               ================================================= */
+
+            else if (
+                diferencia >= 2
+            ) {
+
+
+                document.body.style.backgroundColor =
+                    "#c0392b";
+
+
+                /* ---------------------------------------------
+                   2 km/h o más por encima
+                   → 1 luz
+                   --------------------------------------------- */
+
+                document
+                    .getElementById(
+                        "der-1"
+                    )
+                    .style.backgroundColor =
+                        "white";
+
+
+
+                /* ---------------------------------------------
+                   4 km/h o más por encima
+                   → 2 luces
+                   --------------------------------------------- */
+
+                if (
+                    diferencia >= 4
+                ) {
+
+                    document
+                        .getElementById(
+                            "der-2"
+                        )
+                        .style.backgroundColor =
+                            "white";
+
+                }
+
+
+
+                /* ---------------------------------------------
+                   6 km/h o más por encima
+                   → 3 luces
+                   --------------------------------------------- */
+
+                if (
+                    diferencia >= 6
+                ) {
+
+                    document
+                        .getElementById(
+                            "der-3"
+                        )
+                        .style.backgroundColor =
+                            "white";
+
+                }
+
+            }
+
+
+
+            /* =================================================
+               VELOCIDAD ÓPTIMA
+               Diferencia entre -1 y +1 km/h
+               ================================================= */
 
             else {
+
 
                 document.body.style.backgroundColor =
                     "#2ecc71";
@@ -547,15 +792,20 @@
         }
 
 
-        // =====================================================
-        // GPS
-        // =====================================================
 
-        if (navigator.geolocation) {
+        /* =====================================================
+           GPS
+           ===================================================== */
+
+        if (
+            navigator.geolocation
+        ) {
+
 
             navigator.geolocation.watchPosition(
 
                 (pos) => {
+
 
                     procesarGps(
 
@@ -569,7 +819,9 @@
 
                 },
 
+
                 (err) => {
+
 
                     document
                         .getElementById(
@@ -578,6 +830,7 @@
                         .innerText = "ERR";
 
                 },
+
 
                 {
 
@@ -593,7 +846,9 @@
 
         }
 
+
         else {
+
 
             document
                 .getElementById(
@@ -603,7 +858,9 @@
 
         }
 
+
     </script>
 
 </body>
+
 </html>
