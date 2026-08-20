@@ -503,6 +503,31 @@
 
 
         /* =====================================================
+           ENCENDER TODAS LAS LUCES (VELOCIDAD ÓPTIMA)
+           ===================================================== */
+
+        function encenderTodasLasLuces() {
+
+            const luces =
+                document.querySelectorAll('.luz');
+
+
+            luces.forEach(
+
+                luz => {
+
+                    luz.style.backgroundColor =
+                        "white";
+
+                }
+
+            );
+
+        }
+
+
+
+        /* =====================================================
            PROCESAMIENTO GPS
            ===================================================== */
 
@@ -786,6 +811,15 @@
 
                 document.body.style.backgroundColor =
                     "#2ecc71";
+
+
+                /* ---------------------------------------------
+                   En velocidad óptima, las 6 luces
+                   (izquierda y derecha) se encienden
+                   en blanco.
+                   --------------------------------------------- */
+
+                encenderTodasLasLuces();
 
             }
 
