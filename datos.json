@@ -1,6 +1,6 @@
 [
-  {"metros": 0, "porcentaje": 100, "v_ideal": 15},
-  {"metros": 100, "porcentaje": 40, "v_ideal": 20},
-  {"metros": 300, "porcentaje": 0, "v_ideal": 15},
-  {"metros": 448, "porcentaje": 70, "v_ideal": 15}
+  {"metros": 0, "porcentaje": 100, "v_ideal": 4},
+  {"metros": 100, "porcentaje": 40, "v_ideal": 6},
+  {"metros": 300, "porcentaje": 0, "v_ideal": 6},
+  {"metros": 448, "porcentaje": 70, "v_ideal": 5}
 ]
