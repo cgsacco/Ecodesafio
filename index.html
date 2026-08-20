@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Volante EcoDesafío - Luces de Ritmo</title>
+
     <style>
+
         body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: Arial, sans-serif;
-            background-color: #2ecc71; /* Verde por defecto: ritmo perfecto */
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+
+            background-color: #2ecc71;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
             transition: background-color 0.2s ease;
+
             overflow: hidden;
         }
 
-        /* Contenedor principal de los dos bloques de luces */
+
+        /* =====================================================
+           CONTENEDOR PRINCIPAL
+           ===================================================== */
+
         #tablero-luces {
             display: flex;
             width: 90%;
@@ -22,173 +39,571 @@
             align-items: center;
         }
 
-        /* Grupos de 3 luces (izquierdo y derecho) */
+
+        /* =====================================================
+           GRUPOS IZQUIERDO Y DERECHO
+           ===================================================== */
+
         .grupo-luces {
-            display: flex;
-            gap: 2vw;
             width: 42%;
         }
 
-	.titulo-luces {
-	    position: absolute;
-	    top: -5vh;
-	    width: 100%;
-	    text-align: center;
-	    font-size: 4vh;
-	    font-weight: bold;
-	    color: white;
-	    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-	}
-	
-	.grupo-con-titulo {
-	    position: relative;
-	}
-	
-        #grupo-izquierdo { justify-content: flex-end; } /* Enciende de derecha a izquierda */
-        #grupo-derecho { justify-content: flex-start; }  /* Enciende de izquierda a derecha */
 
-	
-        /* Estilo base de cada "luz" */
+        /* Contenedor que incluye título + luces */
+
+        .grupo-con-titulo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        /* =====================================================
+           TÍTULOS
+           ===================================================== */
+
+        .titulo-luces {
+            width: 100%;
+
+            text-align: center;
+
+            font-size: 4vh;
+            font-weight: bold;
+
+            color: white;
+
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+
+            margin-bottom: 2vh;
+        }
+
+
+        /* =====================================================
+           FILA DE LUCES
+           ===================================================== */
+
+        .luces-fila {
+            display: flex;
+
+            gap: 2vw;
+
+            width: 100%;
+        }
+
+
+        /* Izquierda: las luces se encienden de derecha a izquierda */
+
+        #grupo-izquierdo .luces-fila {
+            justify-content: flex-end;
+        }
+
+
+        /* Derecha: las luces se encienden de izquierda a derecha */
+
+        #grupo-derecho .luces-fila {
+            justify-content: flex-start;
+        }
+
+
+        /* =====================================================
+           LUCES
+           ===================================================== */
+
         .luz {
             width: 28%;
+
             height: 35vh;
+
             border: 4px solid white;
+
             border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.15); /* Apagada por defecto */
+
+            background-color: rgba(255, 255, 255, 0.15);
+
             box-sizing: border-box;
         }
 
-        /* Centro del volante: un indicador simple de velocidad real actual */
+
+        /* =====================================================
+           VELOCIDAD EN EL CENTRO
+           ===================================================== */
+
         #velocidad-centro {
+
             width: 16%;
+
             text-align: center;
+
             font-size: 8vh;
+
             font-weight: bold;
+
             color: white;
+
             text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
+
+
+        /* =====================================================
+           AJUSTES PARA TELÉFONOS
+           ===================================================== */
+
+        @media (max-width: 600px) {
+
+            #tablero-luces {
+                width: 96%;
+            }
+
+            .grupo-luces {
+                width: 40%;
+            }
+
+            .titulo-luces {
+                font-size: 3.5vh;
+                margin-bottom: 1.5vh;
+            }
+
+            .luces-fila {
+                gap: 1.5vw;
+            }
+
+            .luz {
+                height: 32vh;
+                border-width: 3px;
+                border-radius: 10px;
+            }
+
+            #velocidad-centro {
+                width: 20%;
+                font-size: 7vh;
+            }
+        }
+
     </style>
 </head>
+
+
 <body>
 
     <div id="tablero-luces">
-        <!-- Luces de Exceso (Izquierda) -->
+
+
+        <!-- =================================================
+             LUCES DE LA IZQUIERDA
+             ================================================= -->
+
         <div class="grupo-luces grupo-con-titulo" id="grupo-izquierdo">
-	    <div class="titulo-luces">Acelerar</div>
-            <div class="luz" id="izq-3"></div>
-            <div class="luz" id="izq-2"></div>
-            <div class="luz" id="izq-1"></div>
+
+            <div class="titulo-luces">
+                Acelerar
+            </div>
+
+            <div class="luces-fila">
+
+                <div class="luz" id="izq-3"></div>
+
+                <div class="luz" id="izq-2"></div>
+
+                <div class="luz" id="izq-1"></div>
+
+            </div>
+
         </div>
 
-        <!-- Velocidad Real en el medio -->
-        <div id="velocidad-centro">--</div>
 
-        <!-- Luces de Falta (Derecha) -->
+        <!-- =================================================
+             VELOCIDAD REAL
+             ================================================= -->
+
+        <div id="velocidad-centro">
+            --
+        </div>
+
+
+        <!-- =================================================
+             LUCES DE LA DERECHA
+             ================================================= -->
+
         <div class="grupo-luces grupo-con-titulo" id="grupo-derecho">
-	    <div class="titulo-luces">Desacelerar</div>
-            <div class="luz" id="der-1"></div>
-            <div class="luz" id="der-2"></div>
-            <div class="luz" id="der-3"></div>
+
+            <div class="titulo-luces">
+                Desacelerar
+            </div>
+
+            <div class="luces-fila">
+
+                <div class="luz" id="der-1"></div>
+
+                <div class="luz" id="der-2"></div>
+
+                <div class="luz" id="der-3"></div>
+
+            </div>
+
         </div>
+
+
     </div>
 
+
     <script>
+
         let TABLA_ESTRATEGIA = [];
 
-        // Cambiar por las coordenadas reales de su circuito (4300m)
+
+        // =====================================================
+        // MAPA DE LA PISTA
+        // =====================================================
+
         const MAPA_PISTA = [
+
             [-31.43343176, -64.2770109, 0.],
+
             [-31.43340430, -64.2765416, 45.],
+
             [-31.43227373, -64.2766247, 175.],
+
             [-31.43231836, -64.2775742, 265.],
+
             [-31.43344893, -64.2775796, 395.],
-	    [-31.43343176, -64.2770109, 448.]
+
+            [-31.43343176, -64.2770109, 448.]
+
         ];
 
+
+        // =====================================================
+        // CARGAR ESTRATEGIA
+        // =====================================================
+
         async function actualizarEstrategiaDesdeBoxes() {
+
             try {
-                const respuesta = await fetch('datos.json?cache_bypass=' + Date.now());
-                TABLA_ESTRATEGIA = await respuesta.json();
-            } catch (error) { console.log("Usando estrategia en memoria."); }
+
+                const respuesta =
+                    await fetch('datos.json?cache_bypass=' + Date.now());
+
+                TABLA_ESTRATEGIA =
+                    await respuesta.json();
+
+            } catch (error) {
+
+                console.log("Usando estrategia en memoria.");
+
+            }
+
         }
-        setInterval(actualizarEstrategiaDesdeBoxes, 5000);
+
+
+        setInterval(
+            actualizarEstrategiaDesdeBoxes,
+            5000
+        );
+
+
         actualizarEstrategiaDesdeBoxes();
 
-        function calcularDistancia(lat1, lon1, lat2, lon2) {
+
+        // =====================================================
+        // DISTANCIA ENTRE COORDENADAS GPS
+        // =====================================================
+
+        function calcularDistancia(
+            lat1,
+            lon1,
+            lat2,
+            lon2
+        ) {
+
             const R = 6371000;
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-                      Math.sin(dLon/2) * Math.sin(dLon/2);
-            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+
+            const dLat =
+                (lat2 - lat1) *
+                Math.PI / 180;
+
+            const dLon =
+                (lon2 - lon1) *
+                Math.PI / 180;
+
+            const a =
+                Math.sin(dLat/2) *
+                Math.sin(dLat/2) +
+
+                Math.cos(lat1 * Math.PI / 180) *
+                Math.cos(lat2 * Math.PI / 180) *
+
+                Math.sin(dLon/2) *
+                Math.sin(dLon/2);
+
+            return R *
+                (
+                    2 *
+                    Math.atan2(
+                        Math.sqrt(a),
+                        Math.sqrt(1-a)
+                    )
+                );
+
         }
 
-        // Función auxiliar para apagar todas las luces
+
+        // =====================================================
+        // APAGAR TODAS LAS LUCES
+        // =====================================================
+
         function apagarTodasLasLuces() {
-            const luces = document.querySelectorAll('.luz');
-            luces.forEach(luz => luz.style.backgroundColor = "rgba(255, 255, 255, 0.15)");
+
+            const luces =
+                document.querySelectorAll('.luz');
+
+            luces.forEach(
+
+                luz =>
+
+                luz.style.backgroundColor =
+                    "rgba(255, 255, 255, 0.15)"
+
+            );
+
         }
 
-        function procesarGps(latActual, lonActual, velocidadMps) {
+
+        // =====================================================
+        // PROCESAMIENTO GPS
+        // =====================================================
+
+        function procesarGps(
+            latActual,
+            lonActual,
+            velocidadMps
+        ) {
+
             if (TABLA_ESTRATEGIA.length === 0) {
-                document.getElementById("velocidad-centro").innerText = "---";
+
+                document
+                    .getElementById("velocidad-centro")
+                    .innerText = "---";
+
                 return;
             }
 
-            let kmhReal = Math.round((velocidadMps || 0) * 3.6);
-            document.getElementById("velocidad-centro").innerText = kmhReal;
 
-            // Encontrar tramo en la pista
+            // -------------------------------------------------
+            // VELOCIDAD REAL
+            // -------------------------------------------------
+
+            let kmhReal =
+                Math.round(
+                    (velocidadMps || 0) * 3.6
+                );
+
+
+            document
+                .getElementById("velocidad-centro")
+                .innerText = kmhReal;
+
+
+            // -------------------------------------------------
+            // ENCONTRAR TRAMO DE LA PISTA
+            // -------------------------------------------------
+
             let distMinima = Infinity;
+
             let metrosActuales = 0;
+
+
             for (let punto of MAPA_PISTA) {
-                let d = calcularDistance = calcularDistancia(latActual, lonActual, punto[0], punto[1]);
-                if (d < distMinima) { distMinima = d; metrosActuales = punto[2]; }
+
+                let d =
+                    calcularDistancia(
+                        latActual,
+                        lonActual,
+                        punto[0],
+                        punto[1]
+                    );
+
+                if (d < distMinima) {
+
+                    distMinima = d;
+
+                    metrosActuales = punto[2];
+
+                }
+
             }
 
-            // Obtener velocidad óptima de la tabla
+
+            // -------------------------------------------------
+            // VELOCIDAD IDEAL
+            // -------------------------------------------------
+
             let kmhIdeal = 0;
-            for (let rango of TABLA_ESTRATEGIA) {
-                if (metrosActuales >= rango.metros) { kmhIdeal = rango.v_ideal; }
+
+
+            for (
+                let rango of TABLA_ESTRATEGIA
+            ) {
+
+                if (
+                    metrosActuales >= rango.metros
+                ) {
+
+                    kmhIdeal =
+                        rango.v_ideal;
+
+                }
+
             }
 
-            // Apagamos todo para recalcular el nuevo estado de luces
+
+            // -------------------------------------------------
+            // APAGAR LUCES
+            // -------------------------------------------------
+
             apagarTodasLasLuces();
 
-            let diferencia = kmhReal - kmhIdeal;
+
+            // -------------------------------------------------
+            // DIFERENCIA DE VELOCIDAD
+            // -------------------------------------------------
+
+            let diferencia =
+                kmhReal - kmhIdeal;
+
+
+            // =================================================
+            // EXCESO DE VELOCIDAD
+            // =================================================
 
             if (diferencia >= 2) {
-                // EXCESO DE VELOCIDAD (Prende luces a la izquierda en Rojo)
-                document.body.style.backgroundColor = "#c0392b"; // Fondo Rojo Alerta
-                
-                document.getElementById("izq-1").style.backgroundColor = "white";
-                if (diferencia >= 4) document.getElementById("izq-2").style.backgroundColor = "white";
-                if (diferencia >= 6) document.getElementById("izq-3").style.backgroundColor = "white";
 
-            } else if (diferencia <= -2) {
-                // FALTA VELOCIDAD (Prende luces a la derecha en Amarillo)
-                document.body.style.backgroundColor = "#d35400"; // Fondo Naranja de atención
-                
-                document.getElementById("der-1").style.backgroundColor = "white";
-                if (diferencia <= -4) document.getElementById("der-2").style.backgroundColor = "white";
-                if (diferencia <= -6) document.getElementById("der-3").style.backgroundColor = "white";
+                document.body.style.backgroundColor =
+                    "#c0392b";
 
-            } else {
-                // VELOCIDAD ÓPTIMA EXACTA (+/- 1 km/h de margen)
-                document.body.style.backgroundColor = "#2ecc71"; // Fondo Verde: Todo perfecto
+
+                document.getElementById(
+                    "izq-1"
+                ).style.backgroundColor = "white";
+
+
+                if (diferencia >= 4)
+
+                    document.getElementById(
+                        "izq-2"
+                    ).style.backgroundColor = "white";
+
+
+                if (diferencia >= 6)
+
+                    document.getElementById(
+                        "izq-3"
+                    ).style.backgroundColor = "white";
+
             }
+
+
+            // =================================================
+            // FALTA DE VELOCIDAD
+            // =================================================
+
+            else if (diferencia <= -2) {
+
+                document.body.style.backgroundColor =
+                    "#d35400";
+
+
+                document.getElementById(
+                    "der-1"
+                ).style.backgroundColor = "white";
+
+
+                if (diferencia <= -4)
+
+                    document.getElementById(
+                        "der-2"
+                    ).style.backgroundColor = "white";
+
+
+                if (diferencia <= -6)
+
+                    document.getElementById(
+                        "der-3"
+                    ).style.backgroundColor = "white";
+
+            }
+
+
+            // =================================================
+            // VELOCIDAD ÓPTIMA
+            // =================================================
+
+            else {
+
+                document.body.style.backgroundColor =
+                    "#2ecc71";
+
+            }
+
         }
+
+
+        // =====================================================
+        // GPS
+        // =====================================================
 
         if (navigator.geolocation) {
+
             navigator.geolocation.watchPosition(
-                (pos) => { procesarGps(pos.coords.latitude, pos.coords.longitude, pos.coords.speed); },
-                (err) => { document.getElementById("velocidad-centro").innerText = "ERR"; },
-                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+
+                (pos) => {
+
+                    procesarGps(
+
+                        pos.coords.latitude,
+
+                        pos.coords.longitude,
+
+                        pos.coords.speed
+
+                    );
+
+                },
+
+                (err) => {
+
+                    document
+                        .getElementById(
+                            "velocidad-centro"
+                        )
+                        .innerText = "ERR";
+
+                },
+
+                {
+
+                    enableHighAccuracy: true,
+
+                    timeout: 5000,
+
+                    maximumAge: 0
+
+                }
+
             );
-        } else {
-            document.getElementById("velocidad-centro").innerText = "GPS?";
+
         }
+
+        else {
+
+            document
+                .getElementById(
+                    "velocidad-centro"
+                )
+                .innerText = "GPS?";
+
+        }
+
     </script>
+
 </body>
 </html>
