@@ -29,9 +29,25 @@
             width: 42%;
         }
 
+	.titulo-luces {
+	    position: absolute;
+	    top: -5vh;
+	    width: 100%;
+	    text-align: center;
+	    font-size: 4vh;
+	    font-weight: bold;
+	    color: white;
+	    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+	}
+	
+	.grupo-con-titulo {
+	    position: relative;
+	}
+	
         #grupo-izquierdo { justify-content: flex-end; } /* Enciende de derecha a izquierda */
         #grupo-derecho { justify-content: flex-start; }  /* Enciende de izquierda a derecha */
 
+	
         /* Estilo base de cada "luz" */
         .luz {
             width: 28%;
@@ -58,6 +74,7 @@
     <div id="tablero-luces">
         <!-- Luces de Exceso (Izquierda) -->
         <div class="grupo-luces" id="grupo-izquierdo">
+	    <div class="titulo-luces">Acelerar</div>
             <div class="luz" id="izq-3"></div>
             <div class="luz" id="izq-2"></div>
             <div class="luz" id="izq-1"></div>
@@ -68,6 +85,7 @@
 
         <!-- Luces de Falta (Derecha) -->
         <div class="grupo-luces" id="grupo-derecho">
+	    <div class="titulo-luces">Desacelerar</div>
             <div class="luz" id="der-1"></div>
             <div class="luz" id="der-2"></div>
             <div class="luz" id="der-3"></div>
