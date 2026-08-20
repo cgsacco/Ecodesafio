@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Volante EcoDesafío - Luces de Ritmo</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #2ecc71; /* Verde por defecto: ritmo perfecto */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: background-color 0.2s ease;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal de los dos bloques de luces */
+        #tablero-luces {
+            display: flex;
+            width: 90%;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Grupos de 3 luces (izquierdo y derecho) */
+        .grupo-luces {
+            display: flex;
+            gap: 2vw;
+            width: 42%;
+        }
+
+        #grupo-izquierdo { justify-content: flex-end; } /* Enciende de derecha a izquierda */
+        #grupo-derecho { justify-content: flex-start; }  /* Enciende de izquierda a derecha */
+
+        /* Estilo base de cada "luz" */
+        .luz {
+            width: 28%;
+            height: 35vh;
+            border: 4px solid white;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.15); /* Apagada por defecto */
+            box-sizing: border-box;
+        }
+
+        /* Centro del volante: un indicador simple de velocidad real actual */
+        #velocidad-centro {
+            width: 16%;
+            text-align: center;
+            font-size: 8vh;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="tablero-luces">
+        <!-- Luces de Exceso (Izquierda) -->
+        <div class="grupo-luces" id="grupo-izquierdo">
+            <div class="luz" id="izq-3"></div>
+            <div class="luz" id="izq-2"></div>
+            <div class="luz" id="izq-1"></div>
+        </div>
+
+        <!-- Velocidad Real en el medio -->
+        <div id="velocidad-centro">--</div>
+
+        <!-- Luces de Falta (Derecha) -->
+        <div class="grupo-luces" id="grupo-derecho">
+            <div class="luz" id="der-1"></div>
+            <div class="luz" id="der-2"></div>
+            <div class="luz" id="der-3"></div>
+        </div>
+    </div>
+
+    <script>
+        let TABLA_ESTRATEGIA = [];
+
+        // Cambiar por las coordenadas reales de su circuito (4300m)
+        const MAPA_PISTA = [
+            [-34.69420, -58.46150, 0],
+            [-34.69450, -58.46180, 300],
+            [-34.69500, -58.46250, 800],
+            [-34.69550, -58.46300, 1400]
+        ];
+
+        async function actualizarEstrategiaDesdeBoxes() {
+            try {
+                const respuesta = await fetch('datos.json?cache_bypass=' + Date.now());
+                TABLA_ESTRATEGIA = await respuesta.json();
+            } catch (error) { console.log("Usando estrategia en memoria."); }
+        }
+        setInterval(actualizarEstrategiaDesdeBoxes, 5000);
+        actualizarEstrategiaDesdeBoxes();
+
+        function calcularDistancia(lat1, lon1, lat2, lon2) {
+            const R = 6371000;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+        }
+
+        // Función auxiliar para apagar todas las luces
+        function apagarTodasLasLuces() {
+            const luces = document.querySelectorAll('.luz');
+            luces.forEach(luz => luz.style.backgroundColor = "rgba(255, 255, 255, 0.15)");
+        }
+
+        function procesarGps(latActual, lonActual, velocidadMps) {
+            if (TABLA_ESTRATEGIA.length === 0) {
+                document.getElementById("velocidad-centro").innerText = "---";
+                return;
+            }
+
+            let kmhReal = Math.round((velocidadMps || 0) * 3.6);
+            document.getElementById("velocidad-centro").innerText = kmhReal;
+
+            // Encontrar tramo en la pista
+            let distMinima = Infinity;
+            let metrosActuales = 0;
+            for (let punto of MAPA_PISTA) {
+                let d = calcularDistance = calcularDistancia(latActual, lonActual, punto[0], punto[1]);
+                if (d < distMinima) { distMinima = d; metrosActuales = punto[2]; }
+            }
+
+            // Obtener velocidad óptima de la tabla
+            let kmhIdeal = 0;
+            for (let rango of TABLA_ESTRATEGIA) {
+                if (metrosActuales >= rango.metros) { kmhIdeal = rango.v_ideal; }
+            }
+
+            // Apagamos todo para recalcular el nuevo estado de luces
+            apagarTodasLasLuces();
+
+            let diferencia = kmhReal - kmhIdeal;
+
+            if (diferencia >= 1) {
+                // EXCESO DE VELOCIDAD (Prende luces a la izquierda en Rojo)
+                document.body.style.backgroundColor = "#c0392b"; // Fondo Rojo Alerta
+                
+                document.getElementById("izq-1").style.backgroundColor = "white";
+                if (diferencia >= 2) document.getElementById("izq-2").style.backgroundColor = "white";
+                if (diferencia >= 3) document.getElementById("izq-3").style.backgroundColor = "white";
+
+            } else if (diferencia <= -1) {
+                // FALTA VELOCIDAD (Prende luces a la derecha en Amarillo)
+                document.body.style.backgroundColor = "#d35400"; // Fondo Naranja de atención
+                
+                document.getElementById("der-1").style.backgroundColor = "white";
+                if (diferencia <= -2) document.getElementById("der-2").style.backgroundColor = "white";
+                if (diferencia <= -3) document.getElementById("der-3").style.backgroundColor = "white";
+
+            } else {
+                // VELOCIDAD ÓPTIMA EXACTA (+/- 1 km/h de margen)
+                document.body.style.backgroundColor = "#2ecc71"; // Fondo Verde: Todo perfecto
+            }
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (pos) => { procesarGps(pos.coords.latitude, pos.coords.longitude, pos.coords.speed); },
+                (err) => { document.getElementById("velocidad-centro").innerText = "ERR"; },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            );
+        } else {
+            document.getElementById("velocidad-centro").innerText = "GPS?";
+        }
+    </script>
+</body>
+</html>
