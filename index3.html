@@ -582,421 +582,303 @@
         /* =====================================================
            PROCESAMIENTO GPS
            ===================================================== */
-
-        function procesarGps(
-            latActual,
-            lonActual,
-            velocidadMps
-        ) {
-
-
-            /* -------------------------------------------------
-               TODAVÍA NO TENEMOS LA ESTRATEGIA
-               ------------------------------------------------- */
-
-            if (
-                TABLA_ESTRATEGIA.length === 0
-            ) {
-
-                document
-                    .getElementById(
-                        "velocidad-real"
-                    )
-                    .innerText = "---";
-
-
-                document
-                    .getElementById(
-                        "velocidad-ideal"
-                    )
-                    .innerText = "Ideal: --";
-
-
-                return;
-
-            }
-
-
-            /* -------------------------------------------------
-               TODAVÍA NO TENEMOS EL MAPA
-               ------------------------------------------------- */
-
-            if (
-                MAPA_PISTA.length === 0
-            ) {
-
-                document
-                    .getElementById(
-                        "velocidad-real"
-                    )
-                    .innerText =
-                        Math.round(
-                            (velocidadMps || 0) * 3.6
-                        );
-
-
-                document
-                    .getElementById(
-                        "velocidad-ideal"
-                    )
-                    .innerText = "Ideal: --";
-
-
-                return;
-
-            }
-
-
-
-            /* -------------------------------------------------
-               VELOCIDAD REAL
-               ------------------------------------------------- */
-
-            let kmhReal =
-                Math.round(
-                    (velocidadMps || 0) * 3.6
-                );
-
-
-            document
-                .getElementById(
-                    "velocidad-real"
-                )
-                .innerText = kmhReal;
-
-
-
-            /* -------------------------------------------------
-               BUSCAR POSICIÓN EN LA PISTA
-               ------------------------------------------------- */
-
-            let distMinima = Infinity;
-
-            let metrosActuales = 0;
-
-
-            for (
-                let punto of MAPA_PISTA
-            ) {
-
-
-                let d =
-                    calcularDistancia(
-                        latActual,
-                        lonActual,
-                        punto.lat,
-                        punto.lon
-                    );
-
-
-                if (
-                    d < distMinima
-                ) {
-
-                    distMinima = d;
-
-                    metrosActuales =
-                        punto.metros;
-
-                }
-
-            }
-
-
-
-            /* -------------------------------------------------
-               OBTENER VELOCIDAD IDEAL
-               ------------------------------------------------- */
-
-            let kmhIdeal = 0;
-
-
-            for (
-                let rango of TABLA_ESTRATEGIA
-            ) {
-
-
-                if (
-                    metrosActuales >=
-                    rango.metros
-                ) {
-
-                    kmhIdeal =
-                        rango.v_ideal;
-
-                }
-
-            }
-
-
-
-            /* -------------------------------------------------
-               MOSTRAR VELOCIDAD IDEAL
-               ------------------------------------------------- */
-
-            document
-                .getElementById(
-                    "velocidad-ideal"
-                )
-                .innerText =
-                    "Ideal: "
-                    + kmhIdeal
-                    + " km/h";
-
-
-
-            /* -------------------------------------------------
-               RESTABLECER TODAS LAS LUCES
-               -------------------------------------------------
-
-               Blancas = estado normal
-
-            */
-
-            apagarTodasLasLuces();
-
-
-
-            /* -------------------------------------------------
-               DIFERENCIA DE VELOCIDAD
-               -------------------------------------------------
-
-               negativa = demasiado lento
-               positiva = demasiado rápido
-
-            */
-
-            let diferencia =
-                kmhReal - kmhIdeal;
-
-
-
-            /* =================================================
-               DEMASIADO LENTO → ACELERAR
-               ================================================= */
-
-            if (
-                diferencia <= -2
-            ) {
-
-
-                /*
-                 * Primera luz:
-                 * la más cercana al centro
-                 */
-
-                document
-                    .getElementById(
-                        "izq-1"
-                    )
-                    .style.backgroundColor =
-                        "red";
-
-
-                /*
-                 * Segunda luz
-                 */
-
-                if (
-                    diferencia <= -4
-                ) {
-
-                    document
-                        .getElementById(
-                            "izq-2"
-                        )
-                        .style.backgroundColor =
-                            "red";
-
-                }
-
-
-                /*
-                 * Tercera luz
-                 */
-
-                if (
-                    diferencia <= -6
-                ) {
-
-                    document
-                        .getElementById(
-                            "izq-3"
-                        )
-                        .style.backgroundColor =
-                            "red";
-
-                }
-
-            }
-
-
-
-            /* =================================================
-               DEMASIADO RÁPIDO → DESACELERAR
-               ================================================= */
-
-            else if (
-                diferencia >= 2
-            ) {
-
-
-                /*
-                 * Primera luz:
-                 * la más cercana al centro
-                 */
-
-                document
-                    .getElementById(
-                        "der-1"
-                    )
-                    .style.backgroundColor =
-                        "red";
-
-
-                /*
-                 * Segunda luz
-                 */
-
-                if (
-                    diferencia >= 4
-                ) {
-
-                    document
-                        .getElementById(
-                            "der-2"
-                        )
-                        .style.backgroundColor =
-                            "red";
-
-                }
-
-
-                /*
-                 * Tercera luz
-                 */
-
-                if (
-                    diferencia >= 6
-                ) {
-
-                    document
-                        .getElementById(
-                            "der-3"
-                        )
-                        .style.backgroundColor =
-                            "red";
-
-                }
-
-            }
-
-
-
-            /* =================================================
-               VELOCIDAD ÓPTIMA
-
-               -1 <= diferencia <= +1
-
-               Las seis luces permanecen blancas.
-               ================================================= */
-
-            else {
-
-                /*
-                 * No hacemos nada.
-                 *
-                 * apagarTodasLasLuces() ya dejó
-                 * las seis luces blancas.
-                 */
-
-            }
-
-        }
-
-
-
-        /* =====================================================
-           GPS
-           ===================================================== */
-
-        if (
-            navigator.geolocation
-        ) {
-
-
-            navigator.geolocation.watchPosition(
-
-                (pos) => {
-
-                    procesarGps(
-
-                        pos.coords.latitude,
-
-                        pos.coords.longitude,
-
-                        pos.coords.speed
-
-                    );
-
-                },
-
-
-                (err) => {
-
-                    document
-                        .getElementById(
-                            "velocidad-real"
-                        )
-                        .innerText = "ERR";
-
-
-                    document
-                        .getElementById(
-                            "velocidad-ideal"
-                        )
-                        .innerText =
-                            "Ideal: --";
-
-                },
-
-
-                {
-
-                    enableHighAccuracy: true,
-
-                    timeout: 5000,
-
-                    maximumAge: 0
-
-                }
-
-            );
-
-        }
-
-
-        else {
-
-            document
-                .getElementById(
-                    "velocidad-real"
-                )
-                .innerText = "GPS?";
-
-
-            document
-                .getElementById(
-                    "velocidad-ideal"
-                )
-                .innerText =
-                    "Ideal: --";
-
-        }
-
-
+      function procesarGps(
+	  latActual,
+	  lonActual,
+	  velocidadMps
+      ) {
+	  
+	  /* =====================================================
+	     VELOCIDAD REAL
+	     
+	     Esto se hace SIEMPRE, independientemente de
+	     que los archivos JSON hayan terminado de cargar.
+	     ===================================================== */
+	  
+	  let kmhReal = Math.round(
+              (velocidadMps || 0) * 3.6
+	  );
+	  
+	  document
+              .getElementById("velocidad-real")
+              .innerText = kmhReal;
+	  
+	  
+	  /* =====================================================
+	     TODAVÍA NO TENEMOS LA ESTRATEGIA
+	     ===================================================== */
+	  
+	  if (TABLA_ESTRATEGIA.length === 0) {
+	      
+              document
+		  .getElementById("velocidad-ideal")
+		  .innerText = "Ideal: --";
+	      
+              return;
+	  }
+	  
+	  
+	  /* =====================================================
+	     TODAVÍA NO TENEMOS EL MAPA
+	     ===================================================== */
+	  
+	  if (MAPA_PISTA.length === 0) {
+	      
+              document
+		  .getElementById("velocidad-ideal")
+		  .innerText = "Ideal: --";
+	      
+              return;
+	  }
+	  
+	  
+	  /* =====================================================
+	     BUSCAR POSICIÓN MÁS CERCANA EN EL MAPA
+	     ===================================================== */
+	  
+	  let distMinima = Infinity;
+	  
+	  let metrosActuales = 0;
+	  
+	  
+	  for (let punto of MAPA_PISTA) {
+	      
+              let d = calcularDistancia(
+		  latActual,
+		  lonActual,
+		  punto.lat,
+		  punto.lon
+              );
+	      
+	      
+              if (d < distMinima) {
+		  
+		  distMinima = d;
+		  
+		  metrosActuales = punto.metros;
+		  
+              }
+	      
+	  }
+	  
+	  
+	  /* =====================================================
+	     OBTENER VELOCIDAD IDEAL
+	     ===================================================== */
+	  
+	  let kmhIdeal = 0;
+	  
+	  
+	  for (let rango of TABLA_ESTRATEGIA) {
+	      
+              if (metrosActuales >= rango.metros) {
+		  
+		  kmhIdeal = rango.v_ideal;
+		  
+              }
+	      
+	  }
+	  
+	  
+	  /* =====================================================
+	     MOSTRAR VELOCIDAD IDEAL
+	     ===================================================== */
+	  
+	  document
+              .getElementById("velocidad-ideal")
+              .innerText =
+              "Ideal: " +
+              kmhIdeal +
+              " km/h";
+	  
+	  
+	  /* =====================================================
+	     RESTABLECER LAS SEIS LUCES A BLANCO
+	     ===================================================== */
+	  
+	  apagarTodasLasLuces();
+	  
+	  
+	  /* =====================================================
+	     DIFERENCIA DE VELOCIDAD
+	     ===================================================== */
+	  
+	  let diferencia =
+              kmhReal - kmhIdeal;
+	  
+	  
+	  /* =====================================================
+	     DEMASIADO LENTO → ACELERAR
+	     ===================================================== */
+	  
+	  if (diferencia <= -2) {
+	      
+              // Primera luz: la más cercana al centro
+	      
+              document
+		  .getElementById("izq-1")
+		  .style.backgroundColor = "red";
+	      
+	      
+              // Segunda luz
+	      
+              if (diferencia <= -4) {
+		  
+		  document
+                      .getElementById("izq-2")
+                      .style.backgroundColor = "red";
+		  
+              }
+	      
+	      
+              // Tercera luz
+	      
+              if (diferencia <= -6) {
+		  
+		  document
+                      .getElementById("izq-3")
+                      .style.backgroundColor = "red";
+		  
+              }
+	      
+	  }
+	  
+	  
+	  /* =====================================================
+	     DEMASIADO RÁPIDO → DESACELERAR
+	     ===================================================== */
+	  
+	  else if (diferencia >= 2) {
+	      
+              // Primera luz: la más cercana al centro
+	      
+              document
+		  .getElementById("der-1")
+		  .style.backgroundColor = "red";
+	      
+	      
+              // Segunda luz
+	      
+              if (diferencia >= 4) {
+		  
+		  document
+                      .getElementById("der-2")
+                      .style.backgroundColor = "red";
+		  
+              }
+	      
+	      
+              // Tercera luz
+	      
+              if (diferencia >= 6) {
+		  
+		  document
+                      .getElementById("der-3")
+                      .style.backgroundColor = "red";
+		  
+              }
+	      
+	  }
+	  
+	  
+	  /* =====================================================
+	     VELOCIDAD ÓPTIMA
+	     
+	     -1 <= diferencia <= +1
+	     
+	     No hacemos nada porque las seis luces
+	     ya fueron puestas en blanco.
+	     ===================================================== */
+	  
+	  else {
+	      
+              // Todas las luces permanecen blancas.
+	      
+	  }
+	  
+      }
+      
+      /* =====================================================
+         GPS
+         ===================================================== */
+      
+      if (
+          navigator.geolocation
+      ) {
+	  
+	  
+          navigator.geolocation.watchPosition(
+	      
+              (pos) => {
+		  
+                  procesarGps(
+		      
+                      pos.coords.latitude,
+		      
+                      pos.coords.longitude,
+		      
+                      pos.coords.speed
+		      
+                  );
+		  
+              },
+	      
+	      
+              (err) => {
+		  
+                  document
+                      .getElementById(
+                          "velocidad-real"
+                      )
+                      .innerText = "ERR";
+		  
+		  
+                  document
+                      .getElementById(
+                          "velocidad-ideal"
+                      )
+                      .innerText =
+                      "Ideal: --";
+		  
+              },
+	      
+	      
+              {
+		  
+                  enableHighAccuracy: true,
+		  
+                  timeout: 5000,
+		  
+                  maximumAge: 0
+		  
+              }
+	      
+          );
+	  
+      }
+      
+      
+      else {
+	  
+          document
+              .getElementById(
+                  "velocidad-real"
+              )
+              .innerText = "GPS?";
+	  
+	  
+          document
+              .getElementById(
+                  "velocidad-ideal"
+              )
+              .innerText =
+              "Ideal: --";
+	  
+      }
+      
+      
     </script>
-
+    
 </body>
 
 </html>
