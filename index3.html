@@ -2,9 +2,7 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport"
           content="width=device-width,
                    initial-scale=1.0,
@@ -12,8 +10,6 @@
                    user-scalable=no">
 
     <title>Volante EcoDesafío - Luces de Ritmo</title>
-
-
     <style>
 
         /* =====================================================
@@ -21,103 +17,69 @@
            ===================================================== */
 
         body, html {
-
             margin: 0;
             padding: 0;
-
             width: 100%;
             height: 100%;
-
             font-family: Arial, sans-serif;
-
             background-color: red;
-
             display: flex;
-
             flex-direction: column;
-
             justify-content: center;
-
             align-items: center;
-
             transition: background-color 0.2s ease;
-
             overflow: hidden;
         }
-
 
         /* =====================================================
            TABLERO PRINCIPAL
            ===================================================== */
 
         #tablero-luces {
-
             display: flex;
-
             width: 90%;
-
             justify-content: space-between;
-
             align-items: center;
         }
-
 
         /* =====================================================
            GRUPOS DE LUCES
            ===================================================== */
 
         .grupo-luces {
-
             width: 42%;
         }
 
-
         .grupo-con-titulo {
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
         }
-
 
         /* =====================================================
            TÍTULOS
            ===================================================== */
 
         .titulo-luces {
-
             width: 100%;
-
             text-align: center;
-
             font-size: 4vh;
-
             font-weight: bold;
-
             color: white;
-
             text-shadow:
                 2px 2px 4px rgba(0,0,0,0.4);
-
             margin-bottom: 2vh;
         }
-
 
         /* =====================================================
            FILA DE LUCES
            ===================================================== */
 
         .luces-fila {
-
             display: flex;
-
             gap: 2vw;
-
             width: 100%;
         }
-
 
         /* Izquierda:
            3     2     1
@@ -126,7 +88,6 @@
         */
 
         #grupo-izquierdo .luces-fila {
-
             justify-content: flex-end;
         }
 
@@ -138,7 +99,6 @@
         */
 
         #grupo-derecho .luces-fila {
-
             justify-content: flex-start;
         }
 
@@ -148,53 +108,36 @@
            ===================================================== */
 
         .luz {
-
             width: 28%;
-
             height: 25vh;
-
             border: 4px solid white;
-
             border-radius: 15px;
-
             /* Blanco = estado normal / apagada */
-
             background-color: white;
-
             box-sizing: border-box;
         }
-
 
         /* =====================================================
            VELOCIDAD CENTRAL
            ===================================================== */
 
         #velocidad-centro {
-
             width: 16%;
-
             text-align: center;
-
             color: black;
-
             font-weight: bold;
         }
 
 
         #velocidad-real {
-
             font-size: 8vh;
-
             line-height: 1;
         }
 
 
         #velocidad-ideal {
-
             font-size: 3vh;
-
             margin-top: 1vh;
-
             white-space: nowrap;
         }
 
@@ -206,37 +149,27 @@
         @media (max-width: 600px) {
 
             #tablero-luces {
-
                 width: 96%;
             }
 
-
             .grupo-luces {
-
                 width: 40%;
             }
 
-
             .titulo-luces {
-
                 font-size: 3.5vh;
-
                 margin-bottom: 1.5vh;
             }
 
 
             .luces-fila {
-
                 gap: 1.5vw;
             }
 
 
             .luz {
-
                 height: 32vh;
-
                 border-width: 3px;
-
                 border-radius: 10px;
             }
 
@@ -248,24 +181,19 @@
 
 
             #velocidad-real {
-
                 font-size: 7vh;
             }
 
 
             #velocidad-ideal {
-
                 font-size: 2.5vh;
-
                 margin-top: 1vh;
             }
-
         }
 
     </style>
 
 </head>
-
 
 <body>
 
@@ -276,98 +204,72 @@
 
     <div id="tablero-luces">
 
-
         <!-- =================================================
              ACELERAR - IZQUIERDA
              ================================================= -->
 
         <div class="grupo-luces grupo-con-titulo"
              id="grupo-izquierdo">
-
             <div class="titulo-luces">
                 Acelerar
             </div>
-
             <div class="luces-fila">
-
                 <!-- Más alejada del centro -->
-
                 <div class="luz"
                      id="izq-3">
                 </div>
 
-
                 <div class="luz"
                      id="izq-2">
                 </div>
-
 
                 <!-- Más cercana al centro -->
 
                 <div class="luz"
                      id="izq-1">
                 </div>
-
             </div>
-
         </div>
-
 
         <!-- =================================================
              VELOCIDADES
              ================================================= -->
 
         <div id="velocidad-centro">
-
             <div id="velocidad-real">
                 --
             </div>
-
             <div id="velocidad-ideal">
                 Ideal: --
             </div>
-
         </div>
-
 
         <!-- =================================================
              DESACELERAR - DERECHA
              ================================================= -->
-
         <div class="grupo-luces grupo-con-titulo"
              id="grupo-derecho">
-
             <div class="titulo-luces">
                 Desacelerar
             </div>
-
             <div class="luces-fila">
-
                 <!-- Más cercana al centro -->
-
                 <div class="luz"
                      id="der-1">
                 </div>
 
-
                 <div class="luz"
                      id="der-2">
                 </div>
-
 
                 <!-- Más alejada del centro -->
 
                 <div class="luz"
                      id="der-3">
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
-
 
     <script>
 
@@ -377,87 +279,64 @@
            ===================================================== */
 
         let TABLA_ESTRATEGIA = [];
-
         let MAPA_PISTA = [];
-
-
 
         /* =====================================================
            CARGAR TABLA DE ESTRATEGIA
            ===================================================== */
-
         async function actualizarEstrategiaDesdeBoxes() {
-
             try {
-
                 const respuesta =
                     await fetch(
                         'datos.json?cache_bypass='
                         + Date.now()
                     );
 
-
                 TABLA_ESTRATEGIA =
                     await respuesta.json();
-
-
                 console.log(
                     "Estrategia cargada:",
                     TABLA_ESTRATEGIA.length,
                     "registros"
                 );
-
             }
 
             catch (error) {
-
                 console.log(
                     "Error cargando datos.json:",
                     error
                 );
-
             }
-
         }
-
-
 
         /* =====================================================
            CARGAR MAPA DE LA PISTA
            ===================================================== */
 
         async function actualizarMapaPista() {
-
             try {
-
                 const respuesta =
                     await fetch(
                         'mapa_pista.json?cache_bypass='
                         + Date.now()
                     );
 
-
                 MAPA_PISTA =
                     await respuesta.json();
 
-
                 console.log(
                     "Mapa de pista cargado:",
-                    MAPA_PISTA.length,
+                     MAPA_PISTA.length,
                     "puntos"
                 );
-
             }
 
             catch (error) {
-
                 console.log(
                     "Error cargando mapa_pista.json:",
                     error
                 );
-
             }
-
         }
 
 
@@ -465,12 +344,8 @@
         /* =====================================================
            CARGA INICIAL
            ===================================================== */
-
         actualizarEstrategiaDesdeBoxes();
-
         actualizarMapaPista();
-
-
 
         /* =====================================================
            ACTUALIZACIÓN PERIÓDICA
@@ -485,71 +360,32 @@
         /*
          * El mapa normalmente no necesita actualizarse
          * tan frecuentemente, pero lo dejamos cada 60 s.
-         */
+         *
 
         setInterval(
             actualizarMapaPista,
             60000
         );
 
+      
 
-
-        /* =====================================================
+        * =====================================================
            DISTANCIA ENTRE DOS PUNTOS GPS
            ===================================================== */
 
-        function calcularDistancia(
-            lat1,
-            lon1,
-            lat2,
-            lon2
-        ) {
-
+      function calcularDistancia(lat1,lon1,lat2,lon2)
+      {
             const R = 6371000;
-
-
             const dLat =
-                (lat2 - lat1)
-                * Math.PI / 180;
-
-
+                (lat2 - lat1)* Math.PI / 180;
             const dLon =
-                (lon2 - lon1)
-                * Math.PI / 180;
-
-
-            const a =
-
-                Math.sin(dLat / 2) *
-                Math.sin(dLat / 2)
-
-                +
-
-                Math.cos(
-                    lat1 * Math.PI / 180
-                )
-
-                *
-
-                Math.cos(
-                    lat2 * Math.PI / 180
-                )
-
-                *
-
-                Math.sin(dLon / 2) *
+                (lon2 - lon1)* Math.PI / 180;
+            const a =Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(lat1 * Math.PI / 180)*Math.cos(
+                    lat2 * Math.PI / 180)* Math.sin(dLon / 2) *
                 Math.sin(dLon / 2);
 
-
-            return R *
-                (
-                    2 *
-                    Math.atan2(
-                        Math.sqrt(a),
-                        Math.sqrt(1 - a)
-                    )
-                );
-
+          return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
         }
 
 
@@ -559,34 +395,21 @@
            ===================================================== */
 
         function apagarTodasLasLuces() {
-
             const luces =
                 document.querySelectorAll('.luz');
-
-
             luces.forEach(
-
                 luz => {
-
                     luz.style.backgroundColor =
                         "white";
-
                 }
-
             );
-
         }
-
-
 
         /* =====================================================
            PROCESAMIENTO GPS
            ===================================================== */
-      function procesarGps(
-	  latActual,
-	  lonActual,
-	  velocidadMps
-      ) {
+      function procesarGps(latActual,lonActual,velocidadMps)
+      {
 	  
 	  /* =====================================================
 	     VELOCIDAD REAL
@@ -594,13 +417,12 @@
 	     Esto se hace SIEMPRE, independientemente de
 	     que los archivos JSON hayan terminado de cargar.
 	     ===================================================== */
-	  
-	  let kmhReal = Math.round(
+          let kmhReal = Math.round(
               (velocidadMps || 0) * 3.6
 	  );
 	  
 	  document
-              .getElementById("velocidad-real")
+	      .getElementById("velocidad-real")
               .innerText = kmhReal;
 	  
 	  
@@ -609,11 +431,9 @@
 	     ===================================================== */
 	  
 	  if (TABLA_ESTRATEGIA.length === 0) {
-	      
               document
 		  .getElementById("velocidad-ideal")
 		  .innerText = "Ideal: --";
-	      
               return;
 	  }
 	  
@@ -623,11 +443,9 @@
 	     ===================================================== */
 	  
 	  if (MAPA_PISTA.length === 0) {
-	      
               document
 		  .getElementById("velocidad-ideal")
 		  .innerText = "Ideal: --";
-	      
               return;
 	  }
 	  
@@ -637,12 +455,9 @@
 	     ===================================================== */
 	  
 	  let distMinima = Infinity;
-	  
 	  let metrosActuales = 0;
 	  
-	  
-	  for (let punto of MAPA_PISTA) {
-	      
+	  for (let punto of MAPA_PISTA) {    
               let d = calcularDistancia(
 		  latActual,
 		  lonActual,
@@ -650,13 +465,9 @@
 		  punto.lon
               );
 	      
-	      
-              if (d < distMinima) {
-		  
-		  distMinima = d;
-		  
-		  metrosActuales = punto.metros;
-		  
+              if (d < distMinima) {		  
+		  distMinima = d;		  
+		  metrosActuales = punto.metros;		  
               }
 	      
 	  }
@@ -667,16 +478,10 @@
 	     ===================================================== */
 	  
 	  let kmhIdeal = 0;
-	  
-	  
-	  for (let rango of TABLA_ESTRATEGIA) {
-	      
-              if (metrosActuales >= rango.metros) {
-		  
-		  kmhIdeal = rango.v_ideal;
-		  
+	  for (let rango of TABLA_ESTRATEGIA) {	      
+              if (metrosActuales >= rango.metros) {		  
+		  kmhIdeal = rango.v_ideal;		  
               }
-	      
 	  }
 	  
 	  
@@ -687,9 +492,7 @@
 	  document
               .getElementById("velocidad-ideal")
               .innerText =
-              "Ideal: " +
-              kmhIdeal +
-              " km/h";
+              "Ideal: " + kmhIdeal + " km/h";
 	  
 	  
 	  /* =====================================================
@@ -802,12 +605,9 @@
          GPS
          ===================================================== */
       
-      if (
-          navigator.geolocation
-      ) {
-	  
-	  
-          navigator.geolocation.watchPosition(
+      if ( navigator.geolocation )
+      {
+	  navigator.geolocation.watchPosition(
 	      
               (pos) => {
 		  
