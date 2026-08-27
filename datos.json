@@ -993,10 +993,5 @@
      {"metros":  422.70, "porcentaje": 432.42, "v_ideal": 12.79},
      {"metros":  423.13, "porcentaje": 432.42, "v_ideal": 12.94},
      {"metros":  423.55, "porcentaje": 432.42, "v_ideal": 13.07},
-     {"metros":  423.98, "porcentaje": 432.42, "v_ideal": 13.20},
-     {"metros":  424.41, "porcentaje": 460.65, "v_ideal": 13.31},
-     {"metros":  424.83, "porcentaje": 460.65, "v_ideal": 13.44},
-     {"metros":  425.26, "porcentaje": 460.65, "v_ideal": 13.56},
-     {"metros":  425.69, "porcentaje": 460.65, "v_ideal": 13.66},
-     {"metros":  426.11, "porcentaje": 460.65, "v_ideal": 13.76}
+     {"metros":  423.98, "porcentaje": 432.42, "v_ideal": 13.20}
 ]
